@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Events\LikeEvent;
-use App\Listeners\LikeRecipeLister;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -14,9 +12,6 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        LikeEvent::class => [
-            LikeRecipeLister::class,
-        ],
     ];
 
     /**
