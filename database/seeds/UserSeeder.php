@@ -4,7 +4,6 @@ use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Faker\Factory;
 
 class UserSeeder extends Seeder
 {
@@ -23,6 +22,6 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
-        factory(User::class, 5)->create();
+        User::factory()->count(5)->create();
     }
 }

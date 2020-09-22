@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Recipe extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['title', 'content', 'image', 'components', 'category_id'];
     protected $hidden = ['created_at', 'updated_at', 'category_id'];
 
@@ -31,26 +34,29 @@ class Recipe extends Model
 
     // Mutator
 
-    // public function setComponentsAttribute($components = null)
-    // {
-    //     if (isset($components) && $components != "components") {
-    //         $str_components = '';
-    //         foreach ($components as $component) {
-    //             $str_components .= $component . ', ';
-    //         }
-    //         $this->attributes['components'] = $str_components;
-    //     } else {
-    //         $this->attributes['components'] = $components;
-    //     }
-    // }
+    public function setComponentsAttribute($components = null)
+    {
+        if (isset($components) && $components != "components") {
+            $str_components = '';
+            foreach ($components as $component) {
+                $str_components .= $component . ', ';
+            }
+            $this->attributes['components'] = $str_components;
+        } else {
+            $this->attributes['components'] = $components;
+        }
+    }
 
     public function setImageAttribute($image)
     {
-        $file_extension = $image->getClientOriginalExtension();
-        $file_name = time() . '.' . $file_extension;
-        $path = 'images/recipes';
-        $image->move($path, $file_name);
-
-        $this->attributes['image'] = $file_name;
+        if(is_file($image)){
+            $file_extension = $image->getClientOriginalExtension();
+            $file_name = time() . '.' . $file_extension;
+            $path = 'images/recipes';
+            $image->move($path, $file_name);
+            $this->attributes['image'] = $file_name;
+        }else{
+            $this->attributes['image'] = $image;
+        }
     }
 }

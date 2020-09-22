@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+if (env('APP_ENV') === 'production')
+    URL::forceScheme('https');
 
 Route::get('test','Admin\MainController@test');
 Route::get('test2','Admin\MainController@test2');

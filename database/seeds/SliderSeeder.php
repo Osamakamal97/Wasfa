@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Slider;
 use Illuminate\Database\Seeder;
 
 class SliderSeeder extends Seeder
@@ -11,6 +12,6 @@ class SliderSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Slider::class, 4)->create();
+        Slider::factory()->count(4)->create();
     }
 }

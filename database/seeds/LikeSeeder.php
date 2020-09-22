@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Like;
 use Illuminate\Database\Seeder;
 
 class LikeSeeder extends Seeder
@@ -11,6 +12,6 @@ class LikeSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Like::class, 200)->create();
+        Like::factory()->count(200)->create();
     }
 }
