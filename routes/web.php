@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('test','Admin\MainController@test');
+Route::get('test2','Admin\MainController@test2');
+
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+// Route::get('login', 'AuthController@loginForm')->name('loginForm');
+// Route::get('register', 'AuthController@registrationForm')->name('registrationForm');
+// Route::post('admin/login', 'AuthController@login')->name('login');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+// Route::get('livewire','HomeController@livewire');

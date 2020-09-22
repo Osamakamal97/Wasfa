@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             FavoriteSeeder::class,
             NewsSeeder::class,
             SliderSeeder::class,
-            LikeSeeder::class
+            LikeSeeder::class,
+            AdminSeeder::class
         ]);
     }
 }

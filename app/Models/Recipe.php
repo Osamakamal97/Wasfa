@@ -11,26 +11,46 @@ class Recipe extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Models\Category', 'category_id', 'id');
+        return $this->belongsTo('App\Models\Category', 'category_id');
     }
 
     public function comments()
     {
-        return $this->hasMany('App\Models\Comment', 'recipe_id', 'id');
+        return $this->hasMany('App\Models\Comment', 'recipe_id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany('App\Models\Like');
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
 
     // Mutator
 
-    public function setComponentsAttribute($components = null)
+    // public function setComponentsAttribute($components = null)
+    // {
+    //     if (isset($components) && $components != "components") {
+    //         $str_components = '';
+    //         foreach ($components as $component) {
+    //             $str_components .= $component . ', ';
+    //         }
+    //         $this->attributes['components'] = $str_components;
+    //     } else {
+    //         $this->attributes['components'] = $components;
+    //     }
+    // }
+
+    public function setImageAttribute($image)
     {
-        if (isset($components) && $components != "components") {
-            $str_components = '';
-            foreach ($components as $component) {
-                $str_components .= $component . ', ';
-            }
-            $this->attributes['components'] = $str_components;
-        } else {
-            $this->attributes['components'] = $components;
-        }
+        $file_extension = $image->getClientOriginalExtension();
+        $file_name = time() . '.' . $file_extension;
+        $path = 'images/recipes';
+        $image->move($path, $file_name);
+
+        $this->attributes['image'] = $file_name;
     }
 }

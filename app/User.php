@@ -2,10 +2,10 @@
 
 namespace App;
 
+use App\Models\Like;
 use App\Models\Recipe;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -70,6 +70,11 @@ class User extends Authenticatable implements JWTSubject
     public function favorites()
     {
         return $this->hasMany('App\Models\Favorite');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 
     // Mutator

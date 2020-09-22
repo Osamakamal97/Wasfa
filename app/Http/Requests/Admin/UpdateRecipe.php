@@ -1,15 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
-use App\Traits\APITrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class UpdateRecipe extends FormRequest
 {
-
-    use APITrait;
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -28,11 +24,11 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => ['required'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'confirmed'],
-            'password_confirmation' => ['required'],
+            'title' => ['required', "unique:recipes,title, $this->id"],
+            'content' => ['required'],
+            'image' => ['sometimes','image'],
+            'components' => ['required',],
+            'category_id' => ['required', 'exists:categories,id'],
         ];
     }
-
 }
