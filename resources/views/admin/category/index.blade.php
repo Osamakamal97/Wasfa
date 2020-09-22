@@ -186,7 +186,7 @@
         // post category to update
         $.ajax({
             type:'post',
-            url: "{{ route('category.update', $category->id)}}",
+            url: "{{ route('category.update', 0)}}",
             data: updateFormData,
             processData: false,
             contentType: false,
