@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreCategory;
-use App\Http\Requests\Admin\UpdateCategory;
+use App\Http\Requests\Admin\CategoryRequest;
 use App\Models\Category;
 use App\Traits\APITrait;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -21,7 +19,7 @@ class CategoryController extends Controller
         return view('admin.category.index', compact('categories'));
     }
 
-    public function store(StoreCategory $request)
+    public function store(CategoryRequest $request)
     {
         $category = Category::create($request->all());
         if ($category) {
@@ -33,7 +31,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function update(UpdateCategory $request)
+    public function update(CategoryRequest $request)
     {
         $category = Category::find($request->id);
         if ($category) {
@@ -51,19 +49,26 @@ class CategoryController extends Controller
         $category = Category::find($request->id);
         if ($category) {
             $category_name = $category->name;
-            try {
-                $category->delete();
-                return response()->json([
-                    'status' => true,
-                    'msg' => 'Category ' . $category_name . ' deleted successfully.',
-                    'id' => $request->id
-                ]);
-            } catch (QueryException $e) {
-                return response()->json([
-                    'status' => false,
-                    'msg' => 'Category has foreign key by recipes Not deleted.',
-                ]);
-            }
+            $category->recipes->each(function ($recipe) {
+                // delete all likes for recipe
+                $recipe->likes->each(function ($recipe) {
+                    $recipe->delete();
+                });
+                // delete all related comments for this recipe
+                $recipe->comments->each(function ($recipe) {
+                    $recipe->delete();
+                });
+                $recipe->favorites->each(function ($recipe) {
+                    $recipe->delete();
+                });
+                $recipe->delete();
+            });
+            $category->delete();
+            return response()->json([
+                'status' => true,
+                'msg' => 'Category ' . $category_name . ' deleted successfully.',
+                'id' => $request->id
+            ]);
         } else
             return response()->json([
                 'status' => false,

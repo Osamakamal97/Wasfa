@@ -36,7 +36,7 @@ class Recipe extends Model
 
     public function setComponentsAttribute($components = null)
     {
-        if (isset($components) && $components != "components") {
+        if (isset($components) && $components != "components" && is_array($components)) {
             $str_components = '';
             foreach ($components as $component) {
                 $str_components .= $component . ', ';
@@ -49,13 +49,13 @@ class Recipe extends Model
 
     public function setImageAttribute($image)
     {
-        if(is_file($image)){
+        if (is_file($image)) {
             $file_extension = $image->getClientOriginalExtension();
             $file_name = time() . '.' . $file_extension;
             $path = 'images/recipes';
             $image->move($path, $file_name);
             $this->attributes['image'] = $file_name;
-        }else{
+        } else {
             $this->attributes['image'] = $image;
         }
     }

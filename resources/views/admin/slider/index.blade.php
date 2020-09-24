@@ -24,7 +24,7 @@
                                     cellspacing="0">
                                     <thead>
                                         <tr role="row">
-                                            <th>#</th>
+                                            <th></th>
                                             <th>Title</th>
                                             <th>status</th>
                                             <th class="text-right">Actions</th>
@@ -32,7 +32,7 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>#</th>
+                                            <th></th>
                                             <th>Title</th>
                                             <th>stuatus</th>
                                             <th class="text-right">Actions</th>
@@ -43,17 +43,18 @@
                                         <tr role="row">
                                             <td>
                                                 <img width="{{INDEX_IMAGE_WIDTH}}" height="{{INDEX_IMAGE_HEIGH}}"
-                                                    rel="nofollow" alt="..."
-                                                    src="{{ asset('images/recipes/'.$slider->image) }}">
+                                                    rel="nofollow" alt="There is no photo for this slider"
+                                                    src="{{ asset('images/sliders/'.$slider->image) }}">
                                             </td>
                                             <td>{{ $slider->title }}</td>
                                             <td>{{ $slider->status }}</td>
                                             <td class="text-right">
-                                                <a href="{{ route('slider.edit',$slider->id) }}"
+                                                <a href="{{ route('slider.edit', $slider->id) }}"
                                                     class="btn btn-link btn-warning btn-just-icon {{-- edit --}}"><i
                                                         class="material-icons">dvr</i></a>
-                                                <a href="#" class="btn btn-link btn-danger btn-just-icon remove"><i
-                                                        class="material-icons">close</i></a>
+                                                <a class="btn btn-link btn-danger btn-just-icon remove"
+                                                    slider_id="{{ $slider->id }}">
+                                                    <i class="material-icons">close</i></a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -83,15 +84,7 @@
           searchPlaceholder: "Search records",
         }
       });
-  
       var table = $('#datatables').DataTable();
-  
-      // Edit record
-      table.on('click', '.edit', function() {
-        $tr = $(this).closest('tr');
-        var data = table.row($tr).data();
-        alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
-      });
       // Delete a record
       table.on('click', '.remove', function(e) {
         e.preventDefault();
@@ -106,11 +99,13 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
         if (result.isConfirmed) {
+            var slider_id = $(this).attr('slider_id');
             $.ajax({
                 type:'delete',
-                url: "{{ route('slider.destroy', $slider->id ) }}",
+                url: "{{ route('slider.destroy', 0 ) }}",
                 data: {
                     '_token': "{{ csrf_token() }}",
+                    'id': slider_id
                 },
                 success: function(data){
                     if(data.status){
@@ -125,8 +120,7 @@
                             'Error!',
                             data.message,
                             'error'
-                        )
-                    }
+                        )}
                 },error: function(error){}
             });
         }else{
@@ -134,13 +128,8 @@
                 'Canceled!',
                 'Delete Recipe Cancel',
                 'success'
-            )
-        }
+            )}
         })
-      });
-      //Like record
-      table.on('click', '.like', function() {
-        alert('You clicked on Like button');
       });
     });
 </script>

@@ -14,20 +14,15 @@ class Slider extends Model
 
     public function setImageAttribute($image)
     {
-        if(is_file($image)){
+        if (is_file($image)) {
             $file_extension = $image->getClientOriginalExtension();
             $file_name = time() . '.' . $file_extension;
-            $path = 'images/sliders';
+            $path = public_path('images/sliders');
             $image->move($path, $file_name);
             $this->attributes['image'] = $file_name;
-        }else{
+        } else {
             $this->attributes['image'] = $image;
         }
     }
 
-    public function setStatusAttribute($status)
-    {
-        if ($status == null)
-            $this->attributes['status'] = 0;
-    }
 }

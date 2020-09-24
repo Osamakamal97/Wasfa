@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="CategoryTable">
                     <thead>
                         <tr>
                             <th class="text-center">#</th>
@@ -22,7 +22,7 @@
                     <tbody id="table_data">
                         @foreach ($categories as $category)
                         <tr class="categoryRow{{ $category->id }}">
-                            <td class="text-center">{{ $category->id }}</td>
+                            <td class="text-center" id="id">{{ $loop->iteration }}</td>
                             <td name="{{ $category->name }}" id="name">{{ $category->name }}</td>
                             <td class="text-center">{{ $category->recipes->count() }}</td>
                             <td class="td-actions text-right">
@@ -119,6 +119,10 @@
 
         var formData = new FormData($('#createCategoryForm')[0]);
         $('#name').text('');
+        // get last id to dynamic id
+        var iteration = $('#CategoryTable tr').last().find("td:eq(0)").text();
+        iteration = parseInt( iteration, 10);
+        iteration = iteration + 1;
 
         $.ajax({
             type:'post',
@@ -143,11 +147,11 @@
                 // insert data at table
                 if(data.category){
                     var html =  '<tr class="categoryRow' + data.category.id + '">';
-                        html +=     '<td class="text-center">' + data.category.id + '</td>';
+                        html +=     '<td class="text-center" id="id">' + iteration + '</td>';
                         html +=     '<td>'+data.category.name+'</td>';
                         html +=     '<td class="text-center">0</td>';
                         html +=     '<td class="td-actions text-right">';
-                        html +=         '<a type="button" rel="tooltip" class="btn btn-success btn-link">';
+                        html +=         '<a type="button" rel="tooltip" class="btn btn-success btn-link" category_id="'+data.category.id+'" id="edit_category" >';
                         html +=             '<i class="material-icons" style="margin-right: 4px;">edit</i>';
                         html +=         '</a>';
                         html +=         '<a type="button" rel="tooltip" class="btn btn-danger btn-link delete-category" category_id="'+data.category.id+'">';
@@ -174,10 +178,10 @@
         window.location.hash = '#move_to_edit';
         // set category name in update input
         currentRow = $(this).closest("tr");
+        var category_id = $(this).attr('category_id');
         var name = currentRow.find("td:eq(1)").text(); 
-        var id = currentRow.find("td:eq(0)").text(); 
+        document.getElementById('edit-id').value = category_id;
         document.getElementById('edit-name').value = name;
-        document.getElementById('edit-id').value = id;
     });
     $(document).on('click', '#update_category', function(e){
         e.preventDefault();
