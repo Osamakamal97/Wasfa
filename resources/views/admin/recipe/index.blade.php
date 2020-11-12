@@ -44,7 +44,7 @@
                                         @foreach ($recipes as $recipe)
                                         <tr role="row">
                                             <td>
-                                                <img width="{{INDEX_IMAGE_WIDTH}}" height="{{INDEX_IMAGE_HEIGH}}"
+                                                <img width="200px" height="100px"
                                                     rel="nofollow" alt="..."
                                                     src="{{ asset('images/recipes/'.$recipe->image) }}">
                                             </td>

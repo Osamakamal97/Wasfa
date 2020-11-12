@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\URL;
 if (env('APP_ENV') === 'production')
     URL::forceScheme('https');
 
-define('INDEX_IMAGE_WIDTH', '200px');
-define('INDEX_IMAGE_HEIGH', '100px');
+// define('INDEX_IMAGE_WIDTH', '200px');
+// define('INDEX_IMAGE_HEIGH', '100px');
 
 Route::get('login', 'AuthController@loginForm')->name('loginForm');
 Route::post('login/check', 'AuthController@login')->name('admin.login');

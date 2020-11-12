@@ -42,7 +42,7 @@
                                         @foreach ($sliders as $slider)
                                         <tr role="row">
                                             <td>
-                                                <img width="{{INDEX_IMAGE_WIDTH}}" height="{{INDEX_IMAGE_HEIGH}}"
+                                                <img width="200px" height="100px"
                                                     rel="nofollow" alt="There is no photo for this slider"
                                                     src="{{ asset('images/sliders/'.$slider->image) }}">
                                             </td>
