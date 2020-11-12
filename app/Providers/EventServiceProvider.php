@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\StoreRecipeEvent;
+use App\Listeners\StoreImagesListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -12,6 +14,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        StoreRecipeEvent::class => [
+            StoreImagesListener::class,
+        ]
     ];
 
     /**

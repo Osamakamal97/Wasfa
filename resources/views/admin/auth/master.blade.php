@@ -4,10 +4,7 @@
 </head>
 
 <body class="off-canvas-sidebar">
-  <!-- Extra details for Live View on GitHub Pages -->
-  <!-- Navbar -->
   @includeIf('admin.auth.layouts.navbar')
-  <!-- End Navbar -->
   <div class="wrapper wrapper-full-page"
     style="height:{{ Str::contains(url()->current(),'login') ? '37.6em' :  '41em;' }}">
     <div class="page-header login-page header-filter" filter-color="black"

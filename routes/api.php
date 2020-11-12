@@ -27,8 +27,8 @@ Route::group(['middleware' => ['api', 'checkPassword', 'checkLanguage'], 'namesp
     Route::get('get-recipe-by-id', 'RecipeController@getRecipeById'); // show
     Route::get('get-recipe-comments', 'RecipeController@getRecipeComments');
     Route::post('add-new-recipe', 'RecipeController@addNewRecipe'); //store
-    Route::post('search-recipe','RecipeController@search');
-    
+    Route::post('search-recipe', 'RecipeController@search');
+
     Route::group(['middleware' => 'checkUserToken'], function () {
         // Favorite
         Route::get('get-favorites-for-user', 'RecipeController@getFavoritesForUser');
